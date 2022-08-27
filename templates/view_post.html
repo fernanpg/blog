@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %} {{post.title}} | {% endblock %}
+
+{% block content %}
+	<section class="hero">
+    	<div class="hero-body">
+      		<div class="container">
+      			<section class="section">
+      				<div class="columns">
+           				 <div class="column is-8 is-offset-2">
+           				 	<div class="content is-medium">
+           				 		<h2 class="subtitle is-4">{{ posts.create_date|date:"D d M Y" }}</h2>
+           				 		<h1 class="title">{{ posts.title }}</h1>
+           				 		<br/> 
+           				 		{% if post.image %}
+	           				 		<figure class="image">
+	           				 			<img src="{{ posts.image.url }}">
+	           				 		</figure>	
+	           				 		{% endif %}
+           				 		<p>{{ posts.body }}</p>
+
+           				 		<hr>
+
+           				 		<h2 class="subtitle is-4">Comments</h2>
+
+								<form method="post" class="mb-6">
+									{% csrf_token %}
+									{{ form.as_p }}
+
+									<div class="field">
+										<div class="control">
+											<button class="button is-success">Submit comment</button>
+										</div>
+									</div>
+								</form>
+
+								{% for comment in posts.comments.all %}
+									<article class="media box">
+										<div class="media-content">
+											<strong>{{ comment.name }}</strong> <small>{{ comment.create_date|timesince }} ago</small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="{% url 'blogin:delete-comment' comment.id %}" class="btn btn-danger">Delete</a><br>
+											{{ comment.body }}
+										</div>
+									</article>
+								{% endfor %}
+           				 	</div>
+              			</div>
+              		</div>
+              	</section>
+            </div>	
+        </div>
+    </section>		
+{% endblock %}

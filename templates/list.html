@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %} Home | {% endblock %}
+
+{% block content %}
+	<section class="hero">
+    	<div class="hero-body">
+    		<div class="column is-8 is-offset-1">
+    			<h1><a href="{% url 'auth_logout' %}">Logout</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="{% url 'auth_password_change' %}">Change Password</a></h1><br/><br/><a href="{% url 'blogin:add-post' %}">Add Post</a></h1>
+    		</div>
+      		<div class="container">
+      			<section class="section">
+      				<div class="columns">
+           				 <div class="column is-8 is-offset-2">
+           				 	{% for post in posts %}
+	           				 	<div class="content is-medium">
+	               					<h2 class="subtitle is-4">{{ post.create_date|date:"D d M Y" }}</h2>
+	                				<h1 class="title">{{ post.title }}</h1>
+	                				<div class="content is-small column is-8 is-offset-2">
+	                					<p style="text-indent: 40px"><a href="{% url 'blogin:view-post' post.id %} ">View</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="{% url 'blogin:update-post' post.id %}">Update</a></p>
+	                				</div>
+	                				<br/> 
+	              				</div>
+	              			{% empty %}
+	              				<p>No blog posts yet</p>
+              				{% endfor %}
+              			</div>
+              		</div>
+              	</section>
+            </div>	
+        </div>
+    </section>		
+{% endblock %}
